@@ -1,0 +1,14 @@
+{
+  "name": "theme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:css": "npx tailwindcss build src/css/tailwindcss.css -o src/css/style.css "
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "tailwindcss": "^1.1.1"
+  }
+}
