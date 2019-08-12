@@ -1,0 +1,41 @@
+.s-img{
+    position: relative;
+    display: block;
+    width: 100%;
+}
+.new-deal-info-cover{
+    position: absolute;
+    right: 0px;
+    top:0px;
+    padding-left: 60px;
+    height: 100%;
+    width: calc(100% + 60px);
+    clip-path:  polygon(0 0, 60px 50%, 0 100%, 100% 100%, 100% 0, 0 0);
+}
+.deal-title{
+    font-size: 60px;
+    font-weight: bolder;
+}
+.deal-label{
+    font-size: 24px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+.font-30{
+font-size: 30px;
+}
+.line-height-0{
+}
+
+
+@media screen and (max-width:768px){
+    .deal-title{
+        font-size: 24px;
+    }
+    .new-deal-info-cover{
+        width: calc(80%);
+        left:20%;
+        background: rgba(222,222,222, .5);
+        padding-left: 0px;
+        clip-path: none
+    }
+}
