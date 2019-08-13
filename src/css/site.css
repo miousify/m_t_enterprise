@@ -26,6 +26,11 @@ font-size: 30px;
 .line-height-0{
 }
 
+.primary-color{
+    background: rgb(243, 61, 15);
+    color:rgb(247, 241, 241);
+}
+
 
 @media screen and (max-width:768px){
     .deal-title{

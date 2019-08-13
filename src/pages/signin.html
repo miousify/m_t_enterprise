@@ -8,25 +8,25 @@
     <link href="../assets/fontawesome/css/all.css" rel="stylesheet" />
     <link href="../css/style.css" rel="stylesheet" />
     <link href="../css/site.css" rel="stylesheet" />
+    <script src="../assets/jquery.js"></script>
     <title>Document</title>
 </head>
 
 <body class="">
     <!-- START OF NOTIFICATIONS AREA -->
     <div class="">
-
     </div>
     <!-- END OF NOTIFICATIONS AREA -->
 
     <!-- START OF MENU AREA -->
-    <div class="bg-gray-100 sticky top-0 " style="z-index:100">
+    <div class="bg-white sticky top-0 border-orange-500 border" style="z-index:100;border-top:none; border-left: none; border-right: none;">
         <div class="container mx-auto px-3">
             <div class="flex flex-col">
-                <div class="flex w-full justify-between my-2 align-middle align-center" style="align-items: center;">
+                <div class="flex w-full justify-between my-3 align-middle align-center" style="align-items: center;">
                     <!-- NAVIGATION MENU -->
                     <div class="inline-block sm:px-3">
                         <span class="">
-                            <span class="fa fa-water"></span>
+                            <span class="fa fa-bars"></span>
                         </span>
                         <span class=" ml-2 hidden md:inline">
                             STORE NAME
@@ -34,16 +34,16 @@
                     </div>
 
                     <!-- NAVIGATION SEARCH -->
-                    <div>
-
+                    <div class="hidden md:block w-3/5">
+                            <form class="inline-block w-full">
+                                    <input
+                                        class="px-2 py-1 w-full md:px-3 md:py-2  hidden md:inline-block  font-thin border border-orange-500 focus:border-orange-800 rounded hover:shadow-lg focus:border focus:shadow"
+                                        placeholder="Search store here!!!" />
+                                </form>
                     </div>
                     <!-- ACTION ICONS -->
                     <div class="inline-block px-1">
-                        <form class="inline-block">
-                            <input
-                                class="px-2 py-1 md:px-3 md:py-2 bg-gray-200 hidden md:inline-block  font-thin border focus:border-purple-800 rounded hover:shadow-lg focus:border focus:shadow"
-                                placeholder="Search store here!!!" />
-                        </form>
+                        
                         <span class="mx-1 md:mx-2 ">
                             <span class="fa fa-search text-gray-800"></span>
                         </span>
@@ -62,23 +62,6 @@
             </div>
         </div>
     </div>
-
-    <!-- SECTIONS AREA -->
-    <div class="bg-purple-800">
-        <div class="container mx-auto px-3 py-2">
-            <div class="flex">
-                <div class="">
-                    <span class="inline-block px-3 py-2 bg-white rounded hover:shadow mx-2">
-                        <span class="">
-                            <span class="fa fa-tags text-purple-800"></span>
-                        </span>
-                        <span class="text-sm">Cate Name</span>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- SECTIONS AREA END-->
 
     <!-- ADVERT AREA -->
     <div class="py-3 bg-gray-500">
@@ -99,7 +82,39 @@
             </div>
         </div>
     </div>
-    <!-- SECTIONS AREA END -->
+    <!-- ADVERT AREA END -->
+
+    <!-- SECTIONS AREA -->
+    <div class="">
+        <div class="container mx-auto px-3 my-4">
+            <div class="flex">
+                <div class="card px-3 py-2 bg-white  inline-block flex shadow-lg items-center  text-gray-900 primary-color" >
+                        <div class="mx-2">
+                            <span class="fa fa-tv fa-2x"></span>
+                        </div>
+                        <div class="mx-2">
+                            <div class="flex justify-between">
+                                    <span class="pr-2">Ladies shoes</span>
+                                    <span><span class="fa fa-chevron-right"></span></span>
+                            </div>
+                            <div class="mt-2 text-gray-900">
+                                <span class="">
+                                    <span class="fa fa-layer-group"></span>
+                                    <span>20</span>
+                                </span>
+                                <span class="mx-2">
+                                    <span class="fa fa-heart"></span>
+                                    <span>20</span>
+                                </span>
+                            </div>
+                        </div>
+                        
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- SECTIONS AREA END-->
 
     <!-- SCHEMA DEFINITION -->
     <!-- NEW DEAL -->
@@ -150,6 +165,14 @@
             </div>
         </div>
         <div class="container mx-auto my-3 px-3">
+                <div class="card my-3">
+                        <div class="card-content">
+                             <div class="text-center my-3">
+                                     <h1 class="font-bold text-orange-600">Today's Product </h1>
+                                     <p>Flip Quickly shop through sections or use the filters <span class="fa fa-filter"></span></p>
+                             </div>
+                        </div>
+                 </div>
             <div>
                 <!-- TYPICAL PRODUCT TEMPLATE DEFINITION -->
                 <div class="w-6/12 md:w-4/12 lg:w-3/12 xl:w-3/12  bg-black float-left p-2 ">
@@ -181,12 +204,11 @@
 
                                     </div>
                                 </div>
-
                                 <!-- LOWER LABEL SECTION IN PRODUCT -->
                                 <div class="absolute bottom-0 py-1 sm:py-2 bg-white w-full flex justify-between px-1 sm:px-3 "
                                     style="background: rgba(225, 225, 225, .7)">
                                     <div>
-                                        <button class="text-xs sm:text-sm px-1 sm:px-2 py-1 border bg-gray-300 rounded">
+                                        <button class="text-xs sm:text-sm px-1 sm:px-2 py-1 border bg-gray-300 rounded primary-color">
                                             <span class="px-1">
                                                 <span class="fa fa-money-bill"></span>
                                             </span>
@@ -229,25 +251,30 @@
             </div>
         </div>
     </div>
-     <!-- PRODUCTS AREA END -->
+    <!-- PRODUCTS AREA END -->
 
     <!-- SECTIONS AREA -->
     <div class="">
         <div class="container px-3 mx-auto">
-            <div class="text-center my-3">
-                <h1 class="font-bold">STORE SECTIONS</h1>
-                <p>Flip Quickly shop through sections or use the filters <span class="fa fa-filter"></span></p>
+            <div class="card my-3">
+                   <div class="card-content">
+                        <div class="text-center my-3">
+                                <h1 class="font-bold text-orange-600">STORE SECTIONS</h1>
+                                <p>Flip Quickly shop through sections or use the filters <span class="fa fa-filter"></span></p>
+                        </div>
+                   </div>
             </div>
             <div>
                 <div class="p-2 w-6/12 md:w-3/12 float-left">
                     <div class="border  bg-gray-200 w-full">
                         <div class="relative w-full overflow-hidden" style="padding-top:50%; padding-bottom: 50%">
-                                <div class="absolute bottom-0 bg-gray-700 w-full">
-                                    <span class="px-3 py-3 inline-block font-bold"> VISIT <span class="fa fa-chevron-right mx-2"></span></span>
-                                </div>
+                            <div class="absolute bottom-0 bg-gray-700 w-full">
+                                <span class="px-3 py-3 inline-block font-bold"> VISIT <span
+                                        class="fa fa-chevron-right mx-2"></span></span>
+                            </div>
                         </div>
                     </div>
-                   
+
                 </div>
                 <div class="float-none clearfix"></div>
             </div>
@@ -263,27 +290,13 @@
     <!-- CALL TO REGISTER SECTION -->
 
     <section>
-        <div class="container px-3 mx-auto my-5">
-
-            <div class="p-3 shadow-xl flex">
-                    <div class=""> 
-                            <h1>NOTICE NOTICE NOTICE</h1>
-                            <p> THIs sdsdd the opps disnd  kdsnlakds dsad</p>
-                            <p> REGIsTEr ro fsfsfsd started</p>
-                    </div>
-                    <div class="px-3">
-                        <button class="px-4 py-2 border rounded-lg ">Signp</button>
-                        <button  class="px-4 py-2 border border-purple-800 rounded-lg">LOGIN</button>
-                    </div>
-            </div>
-
-        </div>
+       
     </section>
     <!-- CALL TO REGISTER END -->
     <footer class="bg-gray-900 text-gray-100">
         <div class="container px-3 inline-block mx-auto my-5">
             <div class="w-8/12 float-left py-2">
-                
+
             </div>
             <div class="w-4/12 float-left inline-block">
                 <div>
@@ -291,20 +304,21 @@
                         <span class="fa fa-facebook-f"></span>
                     </span>
                     <span class="mx-2">
-                            <span class="fa fa-facebook-f"></span>
-                        </span>
-                        <span class="mx-2">
-                                <span class="fa fa-facebook-f"></span>
-                            </span>
-                            <span class="mx-2">
-                                    <span class="fa fa-facebook-f"></span>
-                                </span>
+                        <span class="fa fa-facebook-f"></span>
+                    </span>
+                    <span class="mx-2">
+                        <span class="fa fa-facebook-f"></span>
+                    </span>
+                    <span class="mx-2">
+                        <span class="fa fa-facebook-f"></span>
+                    </span>
                 </div>
             </div>
         </div>
     </footer>
-   
+
     <script src="../assets/fontawesome/js/all.js"></script>
+    <script src="../js/script.js"></script>
 </body>
 
 </html>

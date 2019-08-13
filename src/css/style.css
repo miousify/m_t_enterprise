@@ -11364,6 +11364,87 @@ video {
   z-index: auto;
 }
 
+h1{
+  font-size: 2.4em;
+  font-weight: 900;
+}
+
+h2{
+  font-weight: 700;
+  font-size: 2em;
+}
+
+h3{
+  font-weight: 600;
+  font-size: 1.8em;
+}
+
+h4{
+  font-weight: 600;
+  font-size: 1.6em;
+}
+
+h5{
+  font-weight: 600;
+  font-size: 1.4em;
+}
+
+h6{
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+p{
+  font-size: 1em;
+}
+
+.badge{
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  font-size: 0.8em;
+}
+
+.btn{
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.btn.btn-focus{
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.card{
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.card > .card-head, .card > .card-actions{
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.card-content{
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.card-head{
+  background-color: #e2e8f0;
+}
+
+.card-actions{
+  display: flex;
+  justify-content: flex-end;
+  background-color: #f7fafc;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;

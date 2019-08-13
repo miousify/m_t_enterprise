@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html amp lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% include "required/styles.html" %}
+    {% include "required/scripts.html" %}
+    <title>Document</title>
+</head>
+<body class="">
+    <!-- START OF NOTIFICATIONS AREA -->
+    <div class="">
+    </div>
+    <!-- END OF NOTIFICATIONS AREA -->
+
+    {% include "parts/default-menu.html" %}
+
+    <!-- ADVERT AREA -->
+    <div class="py-3 bg-gray-500">
+        <div class="mx-auto overflow-hidden">
+            <div class="px-2">
+                <div class="w-7/12 float-left px-2">
+                    <div class="h-64 bg-gray-600">
+                    </div>
+                </div>
+                <div class="w-5/12 float-left  px-2">
+                    <div class="h-64 bg-gray-600">
+
+                    </div>
+                </div>
+
+                <div class="float-none"></div>
+            </div>
+        </div>
+    </div>
+    <!-- ADVERT AREA END -->
+
+    <!-- SECTIONS AREA -->
+    <div class="">
+        <div class="container mx-auto px-3 my-4">
+            <div class="flex justify-between items-center">
+                <span class="p-3">
+                        <span class="fa fa-chevron-left"></span>
+                </span>
+                <div class="flex">
+                    {% for item in list %}
+                        <div class="mx-2">
+                        {% include "parts/category-card-template.html" %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <span class="p-3">
+                    <span class="fa fa-chevron-right"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <!-- SECTIONS AREA END-->
+
+    <!-- SCHEMA DEFINITION -->
+    <!-- NEW DEAL -->
+    <!-- NEW DEAL LIKE WHEN A PRODUCT IS SCHEDULED TO BE SOLD WITHIN A PERIOD OF TIME AT A SUBSIZED RATE -->
+    <div>
+        <div class="container px-3 py-2 mx-auto ">
+            <div class="flex align-stretch shadow-lg rounded-xl overflow-hidden relative">
+                <div class="w-12/12 md:w-6/12 bg-gray-100 float-left relative">
+                    <img src="resource/img/studio-4.jpg" class="s-img" />
+                    <div class="absolute bottom-0 pb-5 px-5">
+                        <span class="px-3 py-2 rounded   bg-orange-100 shadow-xl">
+                            <span class="fa fa-money-bill"></span>
+                            $300.00</span>
+                    </div>
+                </div>
+
+                <div class="h-full w-full md:h-auto md:w-6/12  float-left absolute  md:relative ">
+                    <div class="new-deal-info-cover bg-gray-700">
+                        <div class="flex flex-col jusify-center  p-2 text-right md:text-center align-middle h-auto jusify-end md:h-full md:jusify-center "
+                            style="justify-content: center">
+                            <h1 class="deal-title">DEAL TITLE</h1>
+                            <h2 class="deal-label">OFFER OPEN TEMPERAIlY</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="float-none"></div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END NEW DEAL TEMPLATE -->
+
+    <!-- PRODUCTS AREA START -->
+    <div class="">
+        <div class="bg-gray-100 hidden">
+            <div class="container mx-auto px-3">
+                <div class="flex">
+                    <div>
+                        <span class="px-4 py-4 inline-block border">
+                            <span class="fa fa-filter"></span>
+                            Filter
+                        </span>
+                        <h1 class="inline-block ">Products</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container mx-auto my-3 px-3">
+                <div class="card my-3">
+                        <div class="card-content">
+                             <div class="text-center my-3">
+                                     <h3 class="font-bold text-orange-600">Today's Product </h3>
+                                     <p>Flip Quickly shop through sections or use the filters <span class="fa fa-filter"></span></p>
+                             </div>
+                        </div>
+                 </div>
+            <div>
+                <!-- TYPICAL PRODUCT TEMPLATE DEFINITION -->
+                 {% for item in list %} 
+                    <div class="w-6/12 md:w-4/12 lg:w-3/12 xl:w-3/12 float-left p-2 ">
+                        {% include "parts/product-template.html" %}
+                    </div>
+                 {% endfor %}
+
+                <div class="float-none"></div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!-- PRODUCTS AREA END -->
+
+    <!-- SECTIONS AREA -->
+    <div class="">
+        <div class="container px-3 mx-auto">
+            <div class="card my-3">
+                   <div class="card-content">
+                        <div class="text-center my-3">
+                                <h3 class="font-bold text-orange-600">STORE SECTIONS</h3>
+                                <p>Flip Quickly shop through sections or use the filters <span class="fa fa-filter"></span></p>
+                        </div>
+                   </div>
+            </div>
+            <div>
+                {% for item in list %}
+                <div class="p-2 w-6/12 md:w-3/12 float-left">
+                    {% include "parts/section-template.html" %}
+                </div>
+                {% endfor %}
+                <div class="float-none clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <!-- SECTIONS AREA END -->
+
+    <!--  -->
+    <div>
+
+    </div>
+
+    <!-- CALL TO REGISTER SECTION -->
+
+    <section>
+       
+    </section>
+    <!-- CALL TO REGISTER END -->
+    
+    {% include "required/footer.html" %}
+    
+    <script src="resource/assets/fontawesome/js/all.js"></script>
+    <script src="resource/js/script.js"></script>
+</body>
+
+</html>

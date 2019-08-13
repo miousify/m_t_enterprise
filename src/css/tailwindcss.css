@@ -5,6 +5,62 @@
 @tailwind utilities;
 
 
-.site-container{
-    @apply px-3
+
+h1{
+  font-size: 2.4em;
+  font-weight: 900;
+}
+h2{
+  font-weight: 700;
+  font-size: 2em;
+}
+
+h3{
+  font-weight: 600;
+  font-size: 1.8em;
+}
+
+h4{
+  font-weight: 600;
+  font-size: 1.6em;
+}
+
+h5{
+  font-weight: 600;
+  font-size: 1.4em;
+}
+
+h6{
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+p{
+  font-size: 1em;
+}
+.badge{
+  @apply px-2 py-1;
+  font-size: 0.8em;
+  
+}
+.btn{
+  @apply px-3 py-1 ;
+}
+.btn.btn-focus{
+  @apply shadow-lg;
+}
+.card{
+  @apply shadow;
+}
+.card > .card-head, .card > .card-actions{
+  @apply px-3 py-2;
+}
+.card-content{
+  @apply px-3 py-2;
+}
+.card-head{
+  @apply bg-gray-300;
+}
+.card-actions{
+  @apply flex justify-end bg-gray-100;
 }
