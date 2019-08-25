@@ -1,0 +1,51 @@
+<!-- START OF MENU AREA -->
+    <div class="bg-white sticky top-0 left-0 float-out border z-10" style="border-top:none; border-left: none; border-right: none; background:white">
+        <div class="container mx-auto px-4 md:px-3">
+            <div class="flex flex-col">
+                <div class="flex w-full justify-between my-3 items-center">
+                    <!-- NAVIGATION MENU -->
+                    <div class="inline-block sm:px-3 md:w-1/5">
+                        <span class="inline-block btn-icon" id="float-opener">
+                              <i class="material-icons inline-block">menu</i>
+                        </span>
+                        <span class=" ml-2 hidden md:inline">
+                            STORE NAME
+                        </span>
+                    </div>
+                    <!-- NAVIGATION SEARCH -->
+                    <div class="hidden md:block w-3/5">
+                            <form class="inline-block w-full">
+                                    <input
+                                        class="px-2 py-1 w-full md:px-3 md:py-2  hidden md:inline-block  font-thin border border-orange-500 focus:border-orange-800 rounded hover:shadow-lg focus:border focus:shadow"
+                                        placeholder="Search store here!!!" />
+                                </form>
+                    </div>
+                    <!-- ACTION ICONS -->
+                    <div class=" px-1 md:w-1/5">
+                     <span class="inline-block md:float-right btn-icon">
+                            <i class="material-icons inline-block">more_vert</i>
+                        </span>
+                       
+                        <span class="inline-block  md:float-right btn-icon">
+                            <i class="material-icons inline-block">local_grocery_store</i>
+                        </span>
+                        <span class="inline-block md:float-right btn-icon">
+                            <i class="material-icons inline-block">perm_identity</i>
+                        </span>
+
+                         <span class="inline-block md:float-right btn-icon">
+                            <i class="material-icons inline-block">search</i>
+                        </span>
+                    </div>
+                    <!-- ACTION ICONS END -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $("#float-opener").click(function(){    
+            alert()
+            $('#float-menu').toggleClass('float-out')
+        })
+    </script>

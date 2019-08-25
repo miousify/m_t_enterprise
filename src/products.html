@@ -1,33 +1,20 @@
-<!DOCTYPE html>
-<html amp lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {% include "required/styles.html" %}
-    {% include "required/scripts.html" %}
-    <title>Document</title>
-</head>
+{% include "parts/products-menu.html" %}
 
-<body class="">
-    <!-- START OF NOTIFICATIONS AREA -->
-    <div class="">
-    </div>
-    <!-- END OF NOTIFICATIONS AREA -->
+{% extends "layouts/theme.html" %}
 
-    {% include "parts/products-menu.html" %}
+{% block content %}
 
     <!-- SECTIONS AREA -->
     <div class="">
         <div class="container mx-auto px-3 my-4">
             <div class="flex justify-between items-center">
                 <span class="p-3">
-                        <span class="fa fa-chevron-left"></span>
+                    <span class="fa fa-chevron-left"></span>
                 </span>
                 <div class="flex">
                     {% for item in list %}
                         <div class="mx-2">
-                        {% include "parts/category-card-template.html" %}
+                            {% include "parts/category-card-template.html" %}
                         </div>
                     {% endfor %}
                 </div>
@@ -42,38 +29,25 @@
     <!-- PRODUCTS AREA START -->
     <div class="">
         <div class="container mx-auto my-3 px-3">
-                <div class="card my-3">
-                        <div class="card-content">
-                             <div class="text-center my-3">
-                                     <h3 class="font-bold text-orange-600">Active Category </h3>
-                                     <p>Flip Quickly shop through sections or use the filters <span class="fa fa-filter"></span></p>
-                             </div>
-                        </div>
-                 </div>
+            <div class="card my-3">
+                <div class="card-content">
+                    <div class="text-center my-3">
+                        <h3 class="font-bold text-orange-600">Active Category </h3>
+                        <p>Flip Quickly shop through sections or use the filters <span class="fa fa-filter"></span></p>
+                    </div>
+                </div>
+            </div>
             <div>
                 <!-- TYPICAL PRODUCT TEMPLATE DEFINITION -->
-                 {% for item in list %} 
-                    <div class="w-6/12 md:w-4/12 lg:w-3/12 xl:w-3/12 float-left p-2 ">
-                        {% include "parts/product-template.html" %}
+                {% for item in list %}
+                    <div class="w-6/12 md:w-4/12 lg:w-3/12 xl:w-3/12 float-left p-1 sm:p-2 ">
+                        {% include "templates/product-template.html" %}
                     </div>
-                 {% endfor %}
-
+                {% endfor %}
                 <div class="float-none"></div>
                 <div class="clearfix"></div>
             </div>
         </div>
     </div>
     <!-- PRODUCTS AREA END -->
-
-    <!--  -->
-    <div>
-
-    </div>
-
-    {% include "required/footer.html" %}
-    
-    <script src="resource/assets/fontawesome/js/all.js"></script>
-    <script src="resource/js/script.js"></script>
-</body>
-
-</html>
+{% endblock %}

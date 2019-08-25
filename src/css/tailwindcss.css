@@ -44,7 +44,7 @@ p{
   
 }
 .btn{
-  @apply px-3 py-1 ;
+  @apply px-3 py-1;
 }
 .btn.btn-focus{
   @apply shadow-lg;
@@ -63,4 +63,20 @@ p{
 }
 .card-actions{
   @apply flex justify-end bg-gray-100;
+}
+
+.btn-icon{
+  padding:8px 8px;
+  border-radius: 50%;
+  line-height: 0%;
+}
+
+.btn-icon-sm{
+  padding:4px 4px;
+}
+.btn-icon:hover{
+  background:rgba(247, 160, 0, 0.363);
+}
+.btn-item > .material-icons{
+  line-height: 0%;
 }

@@ -1,56 +1,51 @@
-<!DOCTYPE html>
-<html amp lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {% include "required/styles.html" %}
-    {% include "required/scripts.html" %}
-    <title>Document</title>
-</head>
-<body class="">
-    <!-- START OF NOTIFICATIONS AREA -->
-    <div class="">
+{% extends "layouts/theme.html" %}
+{%block beforeSiteMenu %}
+<!-- START OF NOTIFICATIONS AREA -->
+    <div class="bg-gray-900">
+        <div class="container py-2 mx-auto text-center">
+            <p class="text-orange-100"> Register now to take advantage of specific user defined features 
+            <button class="px-3 py-2 bg-orange-500 shadow-lg rounded">
+                Register
+            </button></p>
+        </div>
     </div>
-    <!-- END OF NOTIFICATIONS AREA -->
-
-    {% include "parts/default-menu.html" %}
-
+<!-- END OF NOTIFICATIONS AREA -->
+{% endblock %}
+{% block content %}
     <!-- ADVERT AREA -->
-    <div class="py-3 bg-gray-500">
+    <div class="bg-gray-500">
         <div class="mx-auto overflow-hidden">
-            <div class="px-2">
-                <div class="w-7/12 float-left px-2">
+            <div class="ads-scroller">
+                <div class=" px-2 float-left" style="width:300px;">
                     <div class="h-64 bg-gray-600">
-                    </div>
-                </div>
-                <div class="w-5/12 float-left  px-2">
-                    <div class="h-64 bg-gray-600">
-
+                        <h1>ADS 1</h1>
                     </div>
                 </div>
 
-                <div class="float-none"></div>
+                <div class=" px-2 float-left" style="width:400px">
+                    <div class="h-64 bg-gray-600">
+                        <h1> Ads 2</h1>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <!-- ADVERT AREA END -->
-
     <!-- SECTIONS AREA -->
     <div class="">
         <div class="container mx-auto px-3 my-4">
-            <div class="flex justify-between items-center">
-                <span class="p-3">
+            <div class="flex justify-between items-center items-center">
+                <span class="inline-block btn-icon" id="cat-scroller-prev">
                         <span class="fa fa-chevron-left"></span>
                 </span>
-                <div class="flex">
+                <div class="category-scroller overflow-hidden flex items-center w-full">
                     {% for item in list %}
-                        <div class="mx-2">
-                        {% include "parts/category-card-template.html" %}
-                        </div>
+                        <a class="float-left mx-2" href="/products">
+                        {% include "templates/category-card-template.html" %}
+                        </a>
                     {% endfor %}
                 </div>
-                <span class="p-3">
+                <span class="inline-block btn-icon" id="cat-scroller-next">
                     <span class="fa fa-chevron-right"></span>
                 </span>
             </div>
@@ -63,49 +58,14 @@
     <!-- NEW DEAL LIKE WHEN A PRODUCT IS SCHEDULED TO BE SOLD WITHIN A PERIOD OF TIME AT A SUBSIZED RATE -->
     <div>
         <div class="container px-3 py-2 mx-auto ">
-            <div class="flex align-stretch shadow-lg rounded-xl overflow-hidden relative">
-                <div class="w-12/12 md:w-6/12 bg-gray-100 float-left relative">
-                    <img src="resource/img/studio-4.jpg" class="s-img" />
-                    <div class="absolute bottom-0 pb-5 px-5">
-                        <span class="px-3 py-2 rounded   bg-orange-100 shadow-xl">
-                            <span class="fa fa-money-bill"></span>
-                            $300.00</span>
-                    </div>
-                </div>
-
-                <div class="h-full w-full md:h-auto md:w-6/12  float-left absolute  md:relative ">
-                    <div class="new-deal-info-cover bg-gray-700">
-                        <div class="flex flex-col jusify-center  p-2 text-right md:text-center align-middle h-auto jusify-end md:h-full md:jusify-center "
-                            style="justify-content: center">
-                            <h1 class="deal-title">DEAL TITLE</h1>
-                            <h2 class="deal-label">OFFER OPEN TEMPERAIlY</h2>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="float-none"></div>
-                <div class="clearfix"></div>
-            </div>
+            <img class="block w-full"
+            src="/resource/img/bg6.jpg"/>
         </div>
     </div>
-
     <!-- END NEW DEAL TEMPLATE -->
 
     <!-- PRODUCTS AREA START -->
     <div class="">
-        <div class="bg-gray-100 hidden">
-            <div class="container mx-auto px-3">
-                <div class="flex">
-                    <div>
-                        <span class="px-4 py-4 inline-block border">
-                            <span class="fa fa-filter"></span>
-                            Filter
-                        </span>
-                        <h1 class="inline-block ">Products</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="container mx-auto my-3 px-3">
                 <div class="card my-3">
                         <div class="card-content">
@@ -119,7 +79,7 @@
                 <!-- TYPICAL PRODUCT TEMPLATE DEFINITION -->
                  {% for item in list %} 
                     <div class="w-6/12 md:w-4/12 lg:w-3/12 xl:w-3/12 float-left p-2 ">
-                        {% include "parts/product-template.html" %}
+                        {% include "templates/product-template.html" %}
                     </div>
                  {% endfor %}
 
@@ -144,7 +104,7 @@
             <div>
                 {% for item in list %}
                 <div class="p-2 w-6/12 md:w-3/12 float-left">
-                    {% include "parts/section-template.html" %}
+                    {% include "templates/section-template.html" %}
                 </div>
                 {% endfor %}
                 <div class="float-none clearfix"></div>
@@ -153,22 +113,46 @@
     </div>
     <!-- SECTIONS AREA END -->
 
-    <!--  -->
-    <div>
+    <!-- SERVICES -->
+    <div class="container px-3 py-2 mx-auto">
+        <div>
+            <div class="w-6/12 md:w-4/12 float-left inline-block">
+                <div>
+                    <span>
+                        
+                    </span>
+                </div>
+                <div>
+                    <p>Service title</p>
+                    <p class="text-sm">Service description </p>
+                </div>
+            </div>
+            <div class="clearfix"></div>
 
+        </div>
     </div>
+{% endblock %}
 
-    <!-- CALL TO REGISTER SECTION -->
+{% block customBottomScript %}
+    <script>
+        $('.ads-scroller').slick({
+            dots: true,
+            infinite: true,
+            speed: 300,
+            slidesToShow: 1,
+            variableWidth: false,
+            arrows:true
+            });
 
-    <section>
-       
-    </section>
-    <!-- CALL TO REGISTER END -->
-    
-    {% include "required/footer.html" %}
-    
-    <script src="resource/assets/fontawesome/js/all.js"></script>
-    <script src="resource/js/script.js"></script>
-</body>
-
-</html>
+        $('.category-scroller').slick({
+            dots: false,
+            speed: 300,
+            slidesToShow: 3,
+            variableWidth:true,
+            arrows:true,
+            prevArrow:$('#cat-scroller-prev'),
+            nextArrow:$('#cat-scroller-next')
+        });
+     
+    </script>
+{% endblock %}
