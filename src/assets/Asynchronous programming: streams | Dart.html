@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Language" content="en_US">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn how to consume single-subscriber and broadcast streams.">
+  <title>Asynchronous programming: streams | Dart</title>
+
+  <!-- Favicon / Touch Icons -->
+  <link rel="icon" sizes="64x64" href="https://dart.dev/assets/shared/dart/icon/64.png">
+  <link href="https://dart.dev/assets/touch-icon-iphone-a46c306c4fbfae0b28d63f512b01d7cb2ccf1e4ca9d7f3aab15ba1170beed4a0.png" rel="apple-touch-icon">
+  <link href="https://dart.dev/assets/touch-icon-ipad-d0181720760b3912858b6d40da1d5586b1e92c7c8656a485ea41005674401e6b.png" rel="apple-touch-icon" sizes="76x76">
+  <link href="https://dart.dev/assets/touch-icon-iphone-retina-3d9821a631425376ac6203dea3c23c1940ab7b5c506a25406662fab76cee2e0b.png" rel="apple-touch-icon" sizes="120x120">
+  <link href="https://dart.dev/assets/touch-icon-ipad-retina-b9715401952522f1daee2b4a4064a1bbfb5ffab78d0a47a7226dc87444d51c32.png" rel="apple-touch-icon" sizes="152x152">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@dart_lang">
+  <meta name="twitter:title" content="Asynchronous programming: streams">
+  <meta name="twitter:description" content="Learn how to consume single-subscriber and broadcast streams.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Asynchronous programming: streams">
+  <meta property="og:description" content="Learn how to consume single-subscriber and broadcast streams.">
+  <meta property="og:url" content="https://dart.dev/tutorials/language/streams">
+  <meta property="og:image" content="https://dart.dev/assets/shared/dart-logo-for-shares.png?2">
+  <link href="Asynchronous%20programming:%20streams%20|%20Dart_files/css.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" integrity="sha256-uE8oS4Ez8W3Gk4Ev5CyD36zpq62DHh1rD6HnnXnKi+I=" crossorigin="anonymous" href="Asynchronous%20programming:%20streams%20|%20Dart_files/main-b84f284b8133f16dc693812fe42c83dface9abad831e1d6b0fa1e79.css">
+  <script async="" src="Asynchronous%20programming:%20streams%20|%20Dart_files/analytics.js"></script><script src="Asynchronous%20programming:%20streams%20|%20Dart_files/main-f7f2f2125f3c379daf0f5ca0ecf142cd2e10b030af396a510324fddb.js" integrity="sha256-9/LyEl88N52vD1yg7PFCzS4QsDCvOWpRAyT92xaCxeI=" crossorigin="anonymous" type="text/javascript"></script>
+  <script>
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-26406144-4', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+ </head>
+  <body class="tutorial show_banner">
+    <header id="page-header" class="site-header">
+  <nav id="mainnav" class="site-header">
+  <div id="menu-toggle"><i class="icon icon-menu"></i></div>
+  <a href="https://dart.dev/" class="brand" title="Dart">
+    <img src="Asynchronous%20programming:%20streams%20|%20Dart_files/white-e71fb382ad5229792cc704b3ee7a88f8013e986d6e34f0956d89c4.svg" alt="Dart">
+  </a>
+  <ul class="navbar">
+    <li class="mainnav__get-started">
+      <a href="https://dart.dev/docs" class="nav-link active"><span>Docs</span></a>
+    </li>
+    <li>
+      <a href="https://dart.dev/platforms" class="nav-link">Platforms</a>
+    </li>
+    <li>
+      <a href="https://dart.dev/community" class="nav-link">Community</a>
+    </li>
+    <li>
+      <a href="https://dart.dev/#try-dart" class="nav-link">Try Dart</a>
+    </li>
+    <li>
+      <a href="https://dart.dev/get-dart" class="nav-link">Get Dart</a>
+    </li>
+    <li class="searchfield">
+      <form action="/search" class="site-header__search form-inline" id="cse-search-box">
+        <input type="hidden" name="cx" value="011220921317074318178:_yy-tmb5t_i">
+        <input type="hidden" name="ie" value="UTF-8">
+        <input type="hidden" name="hl" value="en">
+        <input class="site-header__searchfield form-control" type="search" name="q" id="q" autocomplete="off" placeholder="Search" aria-label="Search">
+      </form>
+    </li>
+  </ul>
+</nav>
+
+  
+</header>
+ <div class="banner">
+  <p class="banner__text">
+    
+    Dart 2.4.0 is live! For more information, see the
+    <a class="no-automatic-external" href="https://github.com/dart-lang/sdk/blob/master/CHANGELOG.md#240---2019-06-27">change log</a>.
+  </p>
+</div>
+ 
+
+    <div id="sidenav" class="" style="top: 98px; max-height: 617px;">
+  <form action="/search/" class="site-header__search form-inline">
+    <input class="site-header__searchfield form-control" type="search" name="q" id="q" autocomplete="off" placeholder="Search" aria-label="Search">
+  </form>
+
+  <div class="site-sidebar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a href="https://dart.dev/platforms" class="nav-link">Platforms</a>
+      </li>
+      <li class="nav-item">
+        <a href="https://dart.dev/community" class="nav-link">Community</a>
+      </li>
+      <li class="nav-item">
+        <a href="https://dartpad.dev/" class="nav-link external">Try Dart</a>
+      </li>
+      <li class="nav-item">
+        <a href="https://dart.dev/get-dart" class="nav-link">Get Dart</a>
+      </li>
+      <li class="nav-item">
+        <a href="https://dart.dev/guides" class="nav-link active">Docs</a>
+      </li>
+    </ul>
+
+    <ul class="nav flex-column"><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-1" role="button" aria-expanded="false" aria-controls="sidenav-1">Samples &amp; tutorials</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-1">
+        <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/samples">Language samples</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable" data-toggle="collapse" data-target="#sidenav-1-2" href="#sidenav-1-2" role="button" aria-expanded="true" aria-controls="sidenav-1-2">Codelabs
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-1-2">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/codelabs">List of Dart codelabs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/codelabs/dart-cheatsheet">Language cheatsheet</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/codelabs/async-await">Asynchronous programming</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tutorials">Tutorials</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-2" role="button" aria-expanded="false" aria-controls="sidenav-2">Language</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-2">
+        <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/language/language-tour">Tour</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/language/sound-dart">Type system</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/language/spec">Specification</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-2-4" href="#sidenav-2-4" role="button" aria-expanded="false" aria-controls="sidenav-2-4">Effective Dart
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-2-4">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/language/effective-dart">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/language/effective-dart/style">Style</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/language/effective-dart/documentation">Documentation</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/language/effective-dart/usage">Usage</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/language/effective-dart/design">Design</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-3" role="button" aria-expanded="false" aria-controls="sidenav-3">Core libraries</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3">
+        <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/libraries">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/libraries/library-tour">Tour</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-3" href="#sidenav-3-3" role="button" aria-expanded="false" aria-controls="sidenav-3-3">Articles
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-3">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/articles/libraries/dart-io">Intro to dart:io</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/articles/libraries/creating-streams">Creating streams</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-4" role="button" aria-expanded="false" aria-controls="sidenav-4">Packages</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-4">
+        <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/packages">How to use packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/libraries/useful-libraries">Commonly used packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/libraries/create-library-packages">Creating packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/pub/publishing">Publishing packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-4-5" href="#sidenav-4-5" role="button" aria-expanded="false" aria-controls="sidenav-4-5">Package reference
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-4-5">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/pub/dependencies">Dependencies</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/pub/glossary">Glossary</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/pub/package-layout">Package layout conventions</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/pub/environment-variables">Pub environment variables</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/pub/pubspec">Pubspec file</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/pub/troubleshoot">Troubleshooting pub</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/pub/versioning">Versioning</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link active" data-toggle="collapse" href="#sidenav-5" role="button" aria-expanded="true" aria-controls="sidenav-5">Development</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-5">
+        <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/codelabs/async-await">Futures, async, await</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/json">JSON</a>
+  </li><li class="nav-item">
+    <a class="nav-link active" href="https://dart.dev/tutorials/language/streams">Streams</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/mobile">Mobile apps</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-5-5" href="#sidenav-5-5" role="button" aria-expanded="false" aria-controls="sidenav-5-5">Command-line &amp; server apps
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5-5">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/server">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tutorials/server/get-started">Get started</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tutorials/server/cmdline">Write command-line apps</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tutorials/server/httpserver">Write HTTP clients &amp; servers</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/server/c-interop">C &amp; C++ interop</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/server/libraries">Libraries and packages</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-5-6" href="#sidenav-5-6" role="button" aria-expanded="false" aria-controls="sidenav-5-6">Web apps
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5-6">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/web">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tutorials/web/get-started">Get started</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tutorials/web/fetch-data">Fetch data dynamically</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-5-6-4" href="#sidenav-5-6-4" role="button" aria-expanded="false" aria-controls="sidenav-5-6-4">Low-level web programming
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5-6-4">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tutorials/web/low-level-html/connect-dart-html">Connect Dart &amp; HTML</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tutorials/web/low-level-html/add-elements">Add elements to the DOM</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tutorials/web/low-level-html/remove-elements">Remove DOM elements</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/web/js-interop">JS/TS interop</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/web/deployment">Deployment</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/web/libraries">Libraries and packages</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-6" role="button" aria-expanded="false" aria-controls="sidenav-6">Tools &amp; techniques</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6">
+        <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-6-2" href="#sidenav-6-2" role="button" aria-expanded="false" aria-controls="sidenav-6-2">Editors &amp; debuggers
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6-2">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/jetbrains-plugin">IntelliJ &amp; Android Studio</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/vs-code">VS Code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/dart-devtools">Dart DevTools</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/dartpad">DartPad</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-6-3" href="#sidenav-6-3" role="button" aria-expanded="false" aria-controls="sidenav-6-3">Command-line tools
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6-3">
+      <li class="nav-item">
+    <a class="nav-link collapsable" data-toggle="collapse" data-target="#sidenav-6-3-1" href="#sidenav-6-3-1" role="button" aria-expanded="true" aria-controls="sidenav-6-3-1">Dart SDK
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-6-3-1">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/sdk">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/dart-vm">dart (Dart VM)</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/dart2aot">dart2aot &amp; dartaotruntime</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/dart2js">dart2js (prod JS)</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/dartanalyzer">dartanalyzer</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/dartdevc">dartdevc (dev JS)</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/dartdoc">dartdoc</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/dartfmt">dartfmt</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/pub/cmd">pub</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable" data-toggle="collapse" data-target="#sidenav-6-3-2" href="#sidenav-6-3-2" role="button" aria-expanded="true" aria-controls="sidenav-6-3-2">Other command-line tools
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-6-3-2">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/build_runner">build_runner</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/webdev">webdev</a>
+  </li>
+  </ul>
+  </li>
+</ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-6-4" href="#sidenav-6-4" role="button" aria-expanded="false" aria-controls="sidenav-6-4">Managing source code
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6-4">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/language/formatting">Formatting code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/libraries/private-files">What not to commit</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-6-5" href="#sidenav-6-5" role="button" aria-expanded="false" aria-controls="sidenav-6-5">Static analysis
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6-5">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/language/analysis-options">Customizing static analysis</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/language/sound-problems">Fixing common type problems</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-6-6" href="#sidenav-6-6" role="button" aria-expanded="false" aria-controls="sidenav-6-6">Testing &amp; optimization
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6-6">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/guides/testing">Testing</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/web/debugging">Debugging web apps</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-7" role="button" aria-expanded="false" aria-controls="sidenav-7">Resources</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-7">
+        <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/resources">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/resources/books">Books</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/code-of-conduct">Code of conduct</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/faq">FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-7-5" href="#sidenav-7-5" role="button" aria-expanded="false" aria-controls="sidenav-7-5">History
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-7-5">
+      <li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/dart-2">Migrating to Dart&nbsp;2</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/web/dart-2">Migrating web apps to Dart&nbsp;2</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/tools/pub/obsolete">Obsolete pub features</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/resources/videos">Videos</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="#sidenav-8" role="button" aria-expanded="true" aria-controls="sidenav-8">Related sites</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-8">
+        <li class="nav-item">
+    <a class="nav-link external" href="https://api.dart.dev/" target="_blank" rel="noopener">API reference<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link external" href="https://medium.com/dartlang" target="_blank" rel="noopener">Blog<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link external" href="https://dartpad.dev/" target="_blank" rel="noopener">DartPad (online editor)<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link external" href="https://flutter.dev/" target="_blank" rel="noopener">Flutter<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link external" href="https://pub.dev/" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li></ul>
+
+  </div>
+</div>
+
+    <main id="page-content">
+      
+
+
+
+
+
+
+
+<div id="site-toc--side" class="site-toc " style="top: 98px; max-height: 617px;">
+  <header class="site-toc__title">
+    Contents
+    <button type="button" class="btn site-toc--button__page-top" aria-label="Page top"></button>
+    
+  </header>
+  <ul class="section-nav nav">
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#receiving-stream-events">Receiving stream events</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#error-events">Error events</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#working-with-streams">Working with streams</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#two-kinds-of-streams">Two kinds of streams</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#single-subscription-streams">Single subscription streams</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#broadcast-streams">Broadcast streams</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#process-stream-methods">Methods that process a stream</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#modify-stream-methods">Methods that modify a stream</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#transform-function">The transform() function</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#reading-decoding-file">Reading and decoding a file</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#listen-method">The listen() method</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#other-resources">Other resources</a></li>
+</ul>
+</div>
+
+
+      <article>
+        <div class="content">
+          
+
+          <div>
+            <div id="page-github-links" class="btn-group" aria-label="Page GitHub links" role="group">
+  <a href="https://github.com/dart-lang/site-www/tree/master/src/_tutorials/language/streams.md" class="btn no-automatic-external" title="View page source" target="_blank" rel="noopener">
+    <i class="fas fa-file-alt fa-sm"></i>
+  </a>
+  <a href="https://github.com/dart-lang/site-www/issues/new?title=%27Asynchronous%20programming:%20streams%27%20page%20issue&amp;body=Page%20URL:%20https://dart.dev/tutorials/language/streams%0D%0APage%20source:%20https://github.com/dart-lang/site-www/tree/master/src/_tutorials/language/streams.md%0D%0A%0D%0AFound%20a%20typo?%20You%20can%20fix%20it%20yourself%20by%20going%20to%20the%20page%20source%20and%20clicking%20the%20pencil%20icon.%20Or%20finish%20creating%20this%20issue.%0D%0A%0D%0ADescription%20of%20issue:" class="btn no-automatic-external" title="Report an issue with this page" target="_blank" rel="noopener">
+    <i class="fas fa-bug fa-sm"></i>
+  </a>
+</div>
+
+            <h1>Asynchronous programming: streams</h1>
+          </div>
+          
+
+
+
+
+
+
+
+<div id="site-toc--inline" class="site-toc toc-collapsible toc-collapsed">
+  <header class="site-toc__title">
+    Contents
+    <button type="button" class="btn site-toc--button__page-top" aria-label="Page top"></button>
+    
+      <span class="site-toc--inline__toggle toc-toggle-down"><i class="fas fa-chevron-down fa-m"></i></span>
+      <span class="site-toc--inline__toggle toc-toggle-up"><i class="fas fa-chevron-up fa-m"></i></span>
+    
+  </header>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#receiving-stream-events">Receiving stream events</a></li>
+<li class="toc-entry toc-h2"><a href="#error-events">Error events</a></li>
+<li class="toc-entry toc-h2"><a href="#working-with-streams">Working with streams</a></li>
+<li class="toc-entry toc-h2"><a href="#two-kinds-of-streams">Two kinds of streams</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#single-subscription-streams">Single subscription streams</a></li>
+<li class="toc-entry toc-h3"><a href="#broadcast-streams">Broadcast streams</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#process-stream-methods">Methods that process a stream</a></li>
+<li class="toc-entry toc-h2"><a href="#modify-stream-methods">Methods that modify a stream</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#transform-function">The transform() function</a></li>
+<li class="toc-entry toc-h3"><a href="#reading-decoding-file">Reading and decoding a file</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#listen-method">The listen() method</a></li>
+<li class="toc-entry toc-h2"><a href="#other-resources">Other resources</a></li>
+</ul>
+</div>
+
+
+          
+<div class="mini-toc">
+  <h4>What's the point?</h4>
+
+  <ul>
+    <li>Streams provide an asynchronous sequence of data.</li>
+    <li>Data sequences include user-generated events and data read from files.</li>
+    <li>You can process a stream using either <strong>await for</strong> or <code class="highlighter-rouge">listen()</code> from the Stream API.</li>
+    <li>Streams provide a way to respond to errors.</li>
+    <li>There are two kinds of streams: single subscription or broadcast.</li>
+  </ul>
+</div>
+
+<p>Asynchronous programming in Dart is characterized by the
+<a href="https://api.dart.dev/stable/dart-async/Future-class.html" class="external">Future</a> and <a href="https://api.dart.dev/stable/dart-async/Stream-class.html" class="external">Stream</a> classes.</p>
+
+<p>A Future represents a computation that doesn’t complete immediately.
+Where a normal function returns the result, an asynchronous function
+returns a Future, which will eventually contain the result.
+The future will tell you when the result is ready.</p>
+
+<p>A stream is a sequence of asynchronous events.
+It is like an asynchronous Iterable—where, instead of getting
+the next event when you ask for it, the stream tells you that
+there is an event when it is ready.</p>
+
+<h2 id="receiving-stream-events">
+<a id="receiving-stream-events" class="anchor" href="#receiving-stream-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Receiving stream events</h2>
+
+<p>Streams can be created in many ways, which is a topic for another
+article, but they can all be used in the same way: the <em>asynchronous
+for loop</em> (commonly just called <strong>await for</strong>)
+iterates over the events of a stream like the <strong>for loop</strong> iterates
+over an Iterable. For example:</p>
+
+<!--?code-excerpt "misc/lib/tutorial/sum_stream.dart (sumStream)" replace="/async|await for/[!$&!]/g"?-->
+<pre class="prettyprint lang-dart prettyprinted" style=""><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">int</span><span class="pun">&gt;</span><span class="pln"> sumStream</span><span class="pun">(</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">int</span><span class="pun">&gt;</span><span class="pln"> stream</span><span class="pun">)</span><span class="pln"> </span><span class="highlight"><span class="kwd">async</span></span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> sum </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">;</span><span class="pln">
+  </span><span class="highlight"><span class="kwd">await</span><span class="pln"> </span><span class="kwd">for</span></span><span class="pln"> </span><span class="pun">(</span><span class="kwd">var</span><span class="pln"> value </span><span class="kwd">in</span><span class="pln"> stream</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    sum </span><span class="pun">+=</span><span class="pln"> value</span><span class="pun">;</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> sum</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></pre>
+
+<p>This code simply receives each event of a stream of integer events,
+adds them up, and returns (a future of) the sum.
+When the loop body ends,
+the function is paused until the next event arrives or the stream is done.</p>
+
+<p>The function is marked with the <code class="highlighter-rouge">async</code> keyword, which is required
+when using the <strong>await for</strong> loop.</p>
+
+<p>The following example tests the previous code by
+generating a simple stream of integers using an <code class="highlighter-rouge">async*</code> function:</p>
+
+<iframe src="Asynchronous%20programming:%20streams%20|%20Dart_files/embed-new-inline.html" style="border: 1px solid #ccc;" width="100%" height="490px">
+</iframe>
+
+<aside class="alert alert-info">
+  <p><strong>Note:</strong> Click <strong>Run</strong> to see the result in the <strong>Console</strong>.</p>
+</aside>
+
+<h2 id="error-events">
+<a id="error-events" class="anchor" href="#error-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Error events</h2>
+
+<p>Streams are done when there are no more events in them,
+and the code receiving the events is notified of this just as
+it is notified that a new event arrives.
+When reading events using an <strong>await for</strong> loop,
+the loops stops when the stream is done.</p>
+
+<p>In some cases, an error happens before the stream is done;
+perhaps the network failed while fetching a file from a remote server,
+or perhaps the code creating the events has a bug,
+but someone needs to know about it.</p>
+
+<p>Streams can also deliver error events like it delivers data events.
+Most streams will stop after the first error,
+but it is possible to have streams that deliver more than one error,
+and streams that deliver more data after an error event.
+In this document we only discuss streams that deliver at most one error.</p>
+
+<p>When reading a stream using <strong>await for</strong>, the error is thrown by the
+loop statement. This ends the loop, as well. You can catch the
+error using <strong>try-catch</strong>.  The following example throws an
+error when the loop iterator equals 4:</p>
+
+<iframe src="Asynchronous%20programming:%20streams%20|%20Dart_files/embed-new-inline_002.html" style="border: 1px solid #ccc;" width="100%" height="450px">
+</iframe>
+
+<aside class="alert alert-info">
+  <p><strong>Note:</strong> Click <strong>Run</strong> to see the result in the <strong>Console</strong>.</p>
+</aside>
+
+<h2 id="working-with-streams">
+<a id="working-with-streams" class="anchor" href="#working-with-streams" aria-hidden="true"><span class="octicon octicon-link"></span></a>Working with streams</h2>
+
+<p>The Stream class contains a number of helper methods that can do
+common operations on a stream for you,
+similar to the methods on an <a href="https://api.dart.dev/stable/dart-core/Iterable-class.html" class="external">Iterable.</a>
+For example, you can find the last positive integer in a stream using
+<code class="highlighter-rouge">lastWhere()</code> from the Stream API.</p>
+
+<!--?code-excerpt "misc/lib/tutorial/misc.dart (lastPositive)"?-->
+<pre class="prettyprint lang-dart prettyprinted" style=""><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">int</span><span class="pun">&gt;</span><span class="pln"> lastPositive</span><span class="pun">(</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">int</span><span class="pun">&gt;</span><span class="pln"> stream</span><span class="pun">)</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln">
+    stream</span><span class="pun">.</span><span class="pln">lastWhere</span><span class="pun">((</span><span class="pln">x</span><span class="pun">)</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> x </span><span class="pun">&gt;=</span><span class="pln"> </span><span class="lit">0</span><span class="pun">);</span></pre>
+
+<h2 id="two-kinds-of-streams">
+<a id="two-kinds-of-streams" class="anchor" href="#two-kinds-of-streams" aria-hidden="true"><span class="octicon octicon-link"></span></a>Two kinds of streams</h2>
+
+<p>There are two kinds of streams.</p>
+
+<h3 id="single-subscription-streams">
+<a id="single-subscription-streams" class="anchor" href="#single-subscription-streams" aria-hidden="true"><span class="octicon octicon-link"></span></a>Single subscription streams</h3>
+
+<p>The most common kind of stream contains a sequence of events that
+are parts of a larger whole.
+Events need to be delivered in the correct order and without
+missing any of them.
+This is the kind of stream you get when you read a file or receive
+a web request.</p>
+
+<p>Such a stream can only be listened to once.
+Listening again later could mean missing out on initial events,
+and then the rest of the stream makes no sense.
+When you start listening,
+the data will be fetched and provided in chunks.</p>
+
+<h3 id="broadcast-streams">
+<a id="broadcast-streams" class="anchor" href="#broadcast-streams" aria-hidden="true"><span class="octicon octicon-link"></span></a>Broadcast streams</h3>
+
+<p>The other kind of stream is intended for individual messages that
+can be handled one at a time. This kind of stream can be used for
+mouse events in a browser, for example.</p>
+
+<p>You can start listening to such a stream at any time,
+and you get the events that are fired while you listen.
+More than one listener can listen at the same time,
+and you can listen again later after canceling a previous
+subscription.</p>
+
+<h2 id="process-stream-methods">
+<a id="process-stream-methods" class="anchor" href="#process-stream-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods that process a stream</h2>
+
+<p>The following methods on <a href="https://api.dart.dev/stable/dart-async/Stream-class.html" class="external">Stream&lt;T&gt;</a> process the stream and return a
+result:</p>
+
+<!--?code-excerpt "misc/lib/tutorial/stream_interface.dart (main-stream-members)" remove="/^\s*Stream/"?-->
+<pre class="prettyprint lang-dart prettyprinted" style=""><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> </span><span class="kwd">get</span><span class="pln"> first</span><span class="pun">;</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">bool</span><span class="pun">&gt;</span><span class="pln"> </span><span class="kwd">get</span><span class="pln"> isEmpty</span><span class="pun">;</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> </span><span class="kwd">get</span><span class="pln"> last</span><span class="pun">;</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">int</span><span class="pun">&gt;</span><span class="pln"> </span><span class="kwd">get</span><span class="pln"> length</span><span class="pun">;</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> </span><span class="kwd">get</span><span class="pln"> single</span><span class="pun">;</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">bool</span><span class="pun">&gt;</span><span class="pln"> any</span><span class="pun">(</span><span class="typ">bool</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> element</span><span class="pun">)</span><span class="pln"> test</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">bool</span><span class="pun">&gt;</span><span class="pln"> contains</span><span class="pun">(</span><span class="typ">Object</span><span class="pln"> needle</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">E</span><span class="pun">&gt;</span><span class="pln"> drain</span><span class="pun">&lt;</span><span class="typ">E</span><span class="pun">&gt;([</span><span class="typ">E</span><span class="pln"> futureValue</span><span class="pun">]);</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> elementAt</span><span class="pun">(</span><span class="typ">int</span><span class="pln"> index</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">bool</span><span class="pun">&gt;</span><span class="pln"> every</span><span class="pun">(</span><span class="typ">bool</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> element</span><span class="pun">)</span><span class="pln"> test</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> firstWhere</span><span class="pun">(</span><span class="typ">bool</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> element</span><span class="pun">)</span><span class="pln"> test</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="typ">T</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">()</span><span class="pln"> orElse</span><span class="pun">});</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">S</span><span class="pun">&gt;</span><span class="pln"> fold</span><span class="pun">&lt;</span><span class="typ">S</span><span class="pun">&gt;(</span><span class="typ">S</span><span class="pln"> initialValue</span><span class="pun">,</span><span class="pln"> </span><span class="typ">S</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">S</span><span class="pln"> previous</span><span class="pun">,</span><span class="pln"> </span><span class="typ">T</span><span class="pln"> element</span><span class="pun">)</span><span class="pln"> combine</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Future</span><span class="pln"> forEach</span><span class="pun">(</span><span class="typ">void</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> element</span><span class="pun">)</span><span class="pln"> action</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">String</span><span class="pun">&gt;</span><span class="pln"> join</span><span class="pun">([</span><span class="typ">String</span><span class="pln"> separator </span><span class="pun">=</span><span class="pln"> </span><span class="str">""</span><span class="pun">]);</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> lastWhere</span><span class="pun">(</span><span class="typ">bool</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> element</span><span class="pun">)</span><span class="pln"> test</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="typ">T</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">()</span><span class="pln"> orElse</span><span class="pun">});</span><span class="pln">
+</span><span class="typ">Future</span><span class="pln"> pipe</span><span class="pun">(</span><span class="typ">StreamConsumer</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> streamConsumer</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> reduce</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> previous</span><span class="pun">,</span><span class="pln"> </span><span class="typ">T</span><span class="pln"> element</span><span class="pun">)</span><span class="pln"> combine</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> singleWhere</span><span class="pun">(</span><span class="typ">bool</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> element</span><span class="pun">)</span><span class="pln"> test</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="typ">T</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">()</span><span class="pln"> orElse</span><span class="pun">});</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">List</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;&gt;</span><span class="pln"> toList</span><span class="pun">();</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="kwd">Set</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;&gt;</span><span class="pln"> toSet</span><span class="pun">();</span></pre>
+
+<p>All of these functions, except <code class="highlighter-rouge">drain()</code> and <code class="highlighter-rouge">pipe()</code>,
+correspond to a similar function on <a href="https://api.dart.dev/stable/dart-core/Iterable-class.html" class="external">Iterable.</a>
+Each one can be written easily by using an <code class="highlighter-rouge">async</code> function
+with an <strong>await for</strong> loop (or just using one of the other methods).
+For example, some implementations could be:</p>
+
+<!--?code-excerpt "misc/lib/tutorial/misc.dart (mock-stream-method-implementations)"?-->
+<pre class="prettyprint lang-dart prettyprinted" style=""><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">bool</span><span class="pun">&gt;</span><span class="pln"> contains</span><span class="pun">(</span><span class="typ">Object</span><span class="pln"> needle</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">await</span><span class="pln"> </span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">var</span><span class="pln"> event </span><span class="kwd">in</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="pln">event </span><span class="pun">==</span><span class="pln"> needle</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">return</span><span class="pln"> </span><span class="kwd">true</span><span class="pun">;</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> </span><span class="kwd">false</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">Future</span><span class="pln"> forEach</span><span class="pun">(</span><span class="typ">void</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> element</span><span class="pun">)</span><span class="pln"> action</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">await</span><span class="pln"> </span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">var</span><span class="pln"> event </span><span class="kwd">in</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    action</span><span class="pun">(</span><span class="pln">event</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">List</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;&gt;</span><span class="pln"> toList</span><span class="pun">()</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> result </span><span class="pun">=</span><span class="pln"> </span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;[];</span><span class="pln">
+  </span><span class="kwd">await</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">forEach</span><span class="pun">(</span><span class="pln">result</span><span class="pun">.</span><span class="pln">add</span><span class="pun">);</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> result</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">String</span><span class="pun">&gt;</span><span class="pln"> join</span><span class="pun">([</span><span class="typ">String</span><span class="pln"> separator </span><span class="pun">=</span><span class="pln"> </span><span class="str">""</span><span class="pun">])</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln">
+    </span><span class="pun">(</span><span class="kwd">await</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">toList</span><span class="pun">()).</span><span class="pln">join</span><span class="pun">(</span><span class="pln">separator</span><span class="pun">);</span></pre>
+
+<p>(The actual implementations are slightly more complex,
+but mainly for historical reasons.)</p>
+
+<h2 id="modify-stream-methods">
+<a id="modify-stream-methods" class="anchor" href="#modify-stream-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods that modify a stream</h2>
+
+<p>The following methods on Stream return a new stream based
+on the original stream.
+Each one waits until someone listens on the new stream before
+listening on the original.</p>
+
+<!--?code-excerpt "misc/lib/tutorial/stream_interface.dart (main-stream-members)" remove="/async\w+|distinct|transform/" retain="/^\s*Stream/"?-->
+<pre class="prettyprint lang-dart prettyprinted" style=""><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">R</span><span class="pun">&gt;</span><span class="pln"> cast</span><span class="pun">&lt;</span><span class="typ">R</span><span class="pun">&gt;();</span><span class="pln">
+</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">S</span><span class="pun">&gt;</span><span class="pln"> expand</span><span class="pun">&lt;</span><span class="typ">S</span><span class="pun">&gt;(</span><span class="typ">Iterable</span><span class="pun">&lt;</span><span class="typ">S</span><span class="pun">&gt;</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> element</span><span class="pun">)</span><span class="pln"> convert</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">S</span><span class="pun">&gt;</span><span class="pln"> map</span><span class="pun">&lt;</span><span class="typ">S</span><span class="pun">&gt;(</span><span class="typ">S</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> event</span><span class="pun">)</span><span class="pln"> convert</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">R</span><span class="pun">&gt;</span><span class="pln"> retype</span><span class="pun">&lt;</span><span class="typ">R</span><span class="pun">&gt;();</span><span class="pln">
+</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> skip</span><span class="pun">(</span><span class="typ">int</span><span class="pln"> count</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> skipWhile</span><span class="pun">(</span><span class="typ">bool</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> element</span><span class="pun">)</span><span class="pln"> test</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> take</span><span class="pun">(</span><span class="typ">int</span><span class="pln"> count</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> takeWhile</span><span class="pun">(</span><span class="typ">bool</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> element</span><span class="pun">)</span><span class="pln"> test</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> where</span><span class="pun">(</span><span class="typ">bool</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> event</span><span class="pun">)</span><span class="pln"> test</span><span class="pun">);</span></pre>
+
+<p>The preceding methods correspond to similar methods on <a href="https://api.dart.dev/stable/dart-core/Iterable-class.html" class="external">Iterable</a>
+which transform an iterable into another iterable.
+All of these can be written easily using an <code class="highlighter-rouge">async</code> function
+with an <strong>await for</strong> loop.</p>
+
+<!--?code-excerpt "misc/lib/tutorial/stream_interface.dart (main-stream-members)" remove="/transform/" retain="/async\w+|distinct/"?-->
+<pre class="prettyprint lang-dart prettyprinted" style=""><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">E</span><span class="pun">&gt;</span><span class="pln"> asyncExpand</span><span class="pun">&lt;</span><span class="typ">E</span><span class="pun">&gt;(</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">E</span><span class="pun">&gt;</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> event</span><span class="pun">)</span><span class="pln"> convert</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">E</span><span class="pun">&gt;</span><span class="pln"> asyncMap</span><span class="pun">&lt;</span><span class="typ">E</span><span class="pun">&gt;(</span><span class="typ">FutureOr</span><span class="pun">&lt;</span><span class="typ">E</span><span class="pun">&gt;</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> event</span><span class="pun">)</span><span class="pln"> convert</span><span class="pun">);</span><span class="pln">
+</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> distinct</span><span class="pun">([</span><span class="typ">bool</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> previous</span><span class="pun">,</span><span class="pln"> </span><span class="typ">T</span><span class="pln"> next</span><span class="pun">)</span><span class="pln"> equals</span><span class="pun">]);</span></pre>
+
+<p>The <code class="highlighter-rouge">asyncExpand()</code> and <code class="highlighter-rouge">asyncMap()</code> functions are similar to
+<code class="highlighter-rouge">expand()</code> and <code class="highlighter-rouge">map()</code>,
+but allow their function argument to be an asynchronous function.
+The <code class="highlighter-rouge">distinct()</code> function doesn’t exist on <code class="highlighter-rouge">Iterable</code>, but it could have.</p>
+
+<!--?code-excerpt "misc/lib/tutorial/stream_interface.dart (special-stream-members)"?-->
+<pre class="prettyprint lang-dart prettyprinted" style=""><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> handleError</span><span class="pun">(</span><span class="typ">Function</span><span class="pln"> onError</span><span class="pun">,</span><span class="pln"> </span><span class="pun">{</span><span class="typ">bool</span><span class="pln"> test</span><span class="pun">(</span><span class="pln">error</span><span class="pun">)});</span><span class="pln">
+</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> timeout</span><span class="pun">(</span><span class="typ">Duration</span><span class="pln"> timeLimit</span><span class="pun">,</span><span class="pln">
+    </span><span class="pun">{</span><span class="typ">void</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">EventSink</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> sink</span><span class="pun">)</span><span class="pln"> onTimeout</span><span class="pun">});</span><span class="pln">
+</span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">S</span><span class="pun">&gt;</span><span class="pln"> transform</span><span class="pun">&lt;</span><span class="typ">S</span><span class="pun">&gt;(</span><span class="typ">StreamTransformer</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">,</span><span class="pln"> </span><span class="typ">S</span><span class="pun">&gt;</span><span class="pln"> streamTransformer</span><span class="pun">);</span></pre>
+
+<p>The final three functions are more special.
+They involve error handling which an <strong>await for</strong> loop
+can’t do—the first error reaching the loops will end
+the loop and its subscription on the stream.
+There is no recovering from that.
+You can use <code class="highlighter-rouge">handleError()</code> to remove errors from a stream
+before using it in an <strong>await for</strong> loop.</p>
+
+<h3 id="transform-function">
+<a id="transform-function" class="anchor" href="#transform-function" aria-hidden="true"><span class="octicon octicon-link"></span></a>The transform() function</h3>
+
+<p>The <code class="highlighter-rouge">transform()</code> function is not just for error handling;
+it is a more generalized “map” for streams.
+A normal map requires one value for each incoming event.
+However, especially for I/O streams,
+it might take several incoming events to produce an output event.
+A <a href="https://api.dart.dev/stable/dart-async/StreamTransformer-class.html" class="external">StreamTransformer</a> can work with that.
+For example, decoders like <a href="https://api.dart.dev/stable/dart-convert/Utf8Decoder-class.html" class="external">Utf8Decoder</a> are transformers.
+A transformer requires only one function, <a href="https://api.dart.dev/stable/dart-async/StreamTransformer/bind.html" class="external">bind()</a>, which can be
+easily implemented by an <code class="highlighter-rouge">async</code> function.</p>
+
+<!--?code-excerpt "misc/lib/tutorial/misc.dart (mapLogErrors)"?-->
+<pre class="prettyprint lang-dart prettyprinted" style=""><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">S</span><span class="pun">&gt;</span><span class="pln"> mapLogErrors</span><span class="pun">&lt;</span><span class="typ">S</span><span class="pun">,</span><span class="pln"> </span><span class="typ">T</span><span class="pun">&gt;(</span><span class="pln">
+  </span><span class="typ">Stream</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> stream</span><span class="pun">,</span><span class="pln">
+  </span><span class="typ">S</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> event</span><span class="pun">)</span><span class="pln"> convert</span><span class="pun">,</span><span class="pln">
+</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pun">*</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> streamWithoutErrors </span><span class="pun">=</span><span class="pln"> stream</span><span class="pun">.</span><span class="pln">handleError</span><span class="pun">((</span><span class="pln">e</span><span class="pun">)</span><span class="pln"> </span><span class="pun">=&gt;</span><span class="pln"> log</span><span class="pun">(</span><span class="pln">e</span><span class="pun">));</span><span class="pln">
+  </span><span class="kwd">await</span><span class="pln"> </span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">var</span><span class="pln"> event </span><span class="kwd">in</span><span class="pln"> streamWithoutErrors</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    yield convert</span><span class="pun">(</span><span class="pln">event</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></pre>
+
+<h3 id="reading-decoding-file">
+<a id="reading-decoding-file" class="anchor" href="#reading-decoding-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reading and decoding a file</h3>
+
+<p>The following code reads a file and runs two transforms over the stream.
+It first converts the data from UTF8 and then runs it through
+a <a href="https://api.dart.dev/stable/dart-convert/LineSplitter-class.html" class="external">LineSplitter.</a>
+All lines are printed, except any that begin with a hashtag, <code class="highlighter-rouge">#</code>.</p>
+
+<!--?code-excerpt "misc/lib/tutorial/cat_no_hash.dart"?-->
+<pre class="prettyprint lang-dart prettyprinted" style=""><span class="kwd">import</span><span class="pln"> </span><span class="str">'dart:convert'</span><span class="pun">;</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> </span><span class="str">'dart:io'</span><span class="pun">;</span><span class="pln">
+
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">void</span><span class="pun">&gt;</span><span class="pln"> main</span><span class="pun">(</span><span class="typ">List</span><span class="pun">&lt;</span><span class="typ">String</span><span class="pun">&gt;</span><span class="pln"> args</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> file </span><span class="pun">=</span><span class="pln"> </span><span class="typ">File</span><span class="pun">(</span><span class="pln">args</span><span class="pun">[</span><span class="lit">0</span><span class="pun">]);</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> lines </span><span class="pun">=</span><span class="pln"> utf8</span><span class="pun">.</span><span class="pln">decoder
+      </span><span class="pun">.</span><span class="pln">bind</span><span class="pun">(</span><span class="pln">file</span><span class="pun">.</span><span class="pln">openRead</span><span class="pun">())</span><span class="pln">
+      </span><span class="pun">.</span><span class="pln">transform</span><span class="pun">(</span><span class="typ">LineSplitter</span><span class="pun">());</span><span class="pln">
+  </span><span class="kwd">await</span><span class="pln"> </span><span class="kwd">for</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">var</span><span class="pln"> line </span><span class="kwd">in</span><span class="pln"> lines</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(!</span><span class="pln">line</span><span class="pun">.</span><span class="pln">startsWith</span><span class="pun">(</span><span class="str">'#'</span><span class="pun">))</span><span class="pln"> print</span><span class="pun">(</span><span class="pln">line</span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></pre>
+
+<h2 id="listen-method">
+<a id="listen-method" class="anchor" href="#listen-method" aria-hidden="true"><span class="octicon octicon-link"></span></a>The listen() method</h2>
+
+<p>The final method on Stream is <code class="highlighter-rouge">listen()</code>. This is a “low-level”
+method—all other stream functions are defined in terms of <code class="highlighter-rouge">listen()</code>.</p>
+
+<!--?code-excerpt "misc/lib/tutorial/stream_interface.dart (listen)"?-->
+<pre class="prettyprint lang-dart prettyprinted" style=""><span class="typ">StreamSubscription</span><span class="pun">&lt;</span><span class="typ">T</span><span class="pun">&gt;</span><span class="pln"> listen</span><span class="pun">(</span><span class="typ">void</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">(</span><span class="typ">T</span><span class="pln"> event</span><span class="pun">)</span><span class="pln"> onData</span><span class="pun">,</span><span class="pln">
+    </span><span class="pun">{</span><span class="typ">Function</span><span class="pln"> onError</span><span class="pun">,</span><span class="pln"> </span><span class="typ">void</span><span class="pln"> </span><span class="typ">Function</span><span class="pun">()</span><span class="pln"> onDone</span><span class="pun">,</span><span class="pln"> </span><span class="typ">bool</span><span class="pln"> cancelOnError</span><span class="pun">});</span></pre>
+
+<p>To create a new <code class="highlighter-rouge">Stream</code> type, you can just extend the <code class="highlighter-rouge">Stream</code>
+class and implement the <code class="highlighter-rouge">listen()</code> method—all other methods
+on <code class="highlighter-rouge">Stream</code> call <code class="highlighter-rouge">listen()</code> in order to work.</p>
+
+<p>The <code class="highlighter-rouge">listen()</code> method allows you to start listening on a stream.
+Until you do so,
+the stream is an inert object describing what events you want to see.
+When you listen,
+a <a href="https://api.dart.dev/stable/dart-async/StreamSubscription-class.html" class="external">StreamSubscription</a> object is returned which represents the
+active stream producing events.
+This is similar to how an <code class="highlighter-rouge">Iterable</code> is just a collection of objects,
+but the iterator is the one doing the actual iteration.</p>
+
+<p>The stream subscription allows you to pause the subscription,
+resume it after a pause,
+and cancel it completely.
+You can set callbacks to be called for each data event or
+error event, and when the stream is closed.</p>
+
+<h2 id="other-resources">
+<a id="other-resources" class="anchor" href="#other-resources" aria-hidden="true"><span class="octicon octicon-link"></span></a>Other resources</h2>
+
+<p>Read the following documentation for more details on using streams
+and asynchronous programming in Dart.</p>
+
+<ul>
+  <li>
+<a href="https://dart.dev/articles/libraries/creating-streams">Creating Streams in Dart</a>,
+an article about creating your own streams</li>
+  <li>
+<a href="https://dart.dev/guides/libraries/futures-error-handling">Futures and Error Handling</a>,
+an article that explains how to handle errors using the Future API</li>
+  <li>
+<a href="https://dart.dev/guides/language/language-tour#asynchrony-support">Asynchrony support</a>,
+a section in the <a href="https://dart.dev/guides/language/language-tour">language tour</a>
+</li>
+  <li><a href="https://api.dart.dev/stable/dart-async/Stream-class.html" class="external">Stream API reference</a></li>
+</ul>
+
+
+
+
+
+          
+
+        </div>
+      </article>
+    </main>
+    <footer id="page-footer">
+  <div class="container">
+    <div class="content">
+      <div class="text-center" martdown="1">
+        <style>.menu .material-icons { font-size: 14px; }</style><ul class="menu">
+          <li><a href="https://dart.dev/terms">Terms</a></li>
+          <li><a href="https://dart.dev/security">Security</a></li>
+          <li><a href="http://www.google.com/intl/en/policies/privacy/" class="no-automatic-external">Privacy</a></li>
+          <li>Site&nbsp;<a href="http://creativecommons.org/licenses/by/3.0/" class="no-automatic-external">CC&nbsp;BY&nbsp;3.0</a></li>
+          <li>
+            <a href="https://github.com/dart-lang/site-www" title="This site's source is on GitHub." class="no-automatic-external"><i class="fab fa-github fa-sm"></i></a>
+            &nbsp;
+            <a href="https://github.com/dart-lang/site-www/issues" title="File an issue about this site." class="no-automatic-external"><i class="fas fa-bug fa-sm"></i></a>
+            &nbsp;
+            <a href="https://travis-ci.org/dart-lang/site-www/jobs/572453522" title="Site build #3544 (2019/08/15 12:46 PDT)" class="no-automatic-external"><i class="fas fa-wrench fa-sm"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+
+</body></html>

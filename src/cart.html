@@ -1,0 +1,31 @@
+{% extends "layouts/theme.html" %}
+   
+{% block content %}
+ <!-- LIST OF ITEMS IN CART AREA  -->
+    <div>
+        <div class="container mx-auto px-3">
+            <div class="">
+                    <div class="card my-3">
+                            <div class="card-content">
+                                <div class="text-center my-3">
+                                    <h4 class="font-bold text-orange-600">YOUR CART 
+                                        <span class="fa fa-shopping-cart"></span>
+                                    </h4>
+                                    <p>Flip Quickly shop through sections or use the filters <span class="fa fa-filter"></span></p>
+                                </div>
+                            </div>
+                    </div>
+            </div>
+
+            <div>
+               {# STUFF PURCHASED STAYS Here #}
+               {% include "parts/cart-item.html" %}
+            </div>
+
+            <div class="flex justify-end my-3">
+                <button class="px-3 py-2 bg-gray-100">CONTINUE</button>
+                <button class="px-3 py-2 bg-orange-500 shadow-lg ml-3 text-white">CHECKOUT</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

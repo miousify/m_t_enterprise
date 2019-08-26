@@ -1,0 +1,117 @@
+<div id="dialogCover" class="hidden fixed w-screen h-screen  top-0 left-0"
+    style="z-index: 4000000; background: rgba(0,0,0,.5)">
+    <div class="container flex mx-auto  justify-center h-full items-center">
+        <div class=" w-10/12 md:w-8/12 lg:w-6/12 border bg-orange-100 rouned shadow rounded" id="dialogContent">
+            <!-- BUTTONS  NAV START HERE -->
+            <div class="flex w-full">
+                <div class="flex justify-between px-3 py-2 w-full" id="registerTab">
+                    <span class="font-bold">
+                        Register</span>
+                    <span>
+                        <span class="fa fa-chevron-right"></span>
+                    </span>
+                </div>
+                <div class="flex justify-between px-3 py-2 w-full" id="loginTab">
+                    <span class="font-bold">Login</span>
+                    <span>
+                        <span class="fa fa-chevron-right"></span>
+                    </span>
+                </div>
+            </div>
+            <!-- BUTTONS NAV ENDED -->
+            <div class="bg-gray-400 px-3 py-3">
+                <div class="hidden" id="registerTabContent">
+                    <div class="flex my-2 w-full">
+                        <div class="pr-1">
+                            <span>First name</span>
+                            <input name="userName" class="px-2 py-2 block w-full" placeholder="First name" />
+                        </div>
+                        <div class="pl-1">
+                            <span>Last name</span>
+                            <input name="userName" class="px-2 py-2 block w-full" placeholder="Last name" />
+                        </div>
+                    </div>
+                    <div class="my-2 w-full">
+                        <span>User name</span>
+                        <input name="userName" class="px-2 py-2 block w-full" placeholder="User name" />
+                    </div>
+                    <div class="my-2">
+                        <span>Email</span>
+                        <input name="userName" class="px-2 py-2 block w-full" placeholder="Email" />
+                    </div>
+
+                    <div class="flex my-2 w-full">
+                        <div class="pr-1">
+                            <span>Password</span>
+                            <input name="userName" class="px-2 py-2 block w-full" placeholder="First name" />
+                        </div>
+                        <div class="pl-1">
+                            <span>Re type password</span>
+                            <input name="userName" class="px-2 py-2 block w-full" placeholder="Last name" />
+                        </div>
+                    </div>
+                    <button class="my-2 py-2 px-3  bg-orange-500 w-full">
+                        Register
+                    </button>
+                </div>
+                <div class="hidden" id="loginTabContent">
+                    <div>
+                        <div class="my-2">
+                            <span> Email</span>
+                            <input name="userName" class="px-2 py-2 block w-full" placeholder="User name" />
+                        </div>
+                        <div class="my-2">
+                                <span> Password</span>
+                                <input name="userName" class="px-2 py-2 block w-full" placeholder="User name" />
+                        </div>
+                     
+                        <button class="bg-orange-500 px-3 py-2 w-full my-2"> Login </button>
+                        <div class="my-2">
+                                <span>Recover password if forgotten</span>
+                                <button class="font-bold text-sm p-1 bg-red-500">Recover</button>
+                            </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    let active;
+
+    function tabsControls() {
+
+        $("#dialogCover").click(function () {
+            $("#dialogCover").addClass("hidden")
+        });
+
+        $("#dialogContent input").click(function (e) {
+            e.stopPropagation()
+        })
+
+        $("#dialogContent div").click(function (e) {
+            e.stopPropagation()
+        })
+
+        $("#loginTab").click(function (e) {
+            e.stopImmediatePropagation()
+       
+            $("#loginTabContent").removeClass("hidden");
+            $("#loginTabContent").addClass("block");
+            $("#registerTabContent").addClass("hidden");
+        });
+
+        $("#registerTab").click(function (e) {
+            e.stopImmediatePropagation()
+       
+            $("#loginTabContent").addClass("hidden");
+            $("#registerTabContent").removeClass("hidden");
+            $("#registerTabContent").addClass("block");
+        });
+    }
+    tabsControls()
+</script>

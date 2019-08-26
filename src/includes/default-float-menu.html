@@ -1,0 +1,70 @@
+<div class="fixed top-0 z-50 w-full float-out" style="height: 100%; background: rgba(0, 0,0, .5); " id="float-menu">
+    <div class="px-3 py-3 bg-gray-100 rounded-b-sm inline-block h-full" id="float-menu-content-box">
+        <div class="px-3 py-2 mb-5 bg-orange-500 pr-5 rounded-sm text-gray-100" id="close-float-holder-area">
+            <span class="fa fa-chevron-right"></span>
+            <span class="text-gray-100 mx-2 font-bold" > HOME</span>
+        </div>
+        <div class="my-5">
+            <p class="px-3 font-medium">Categories</p>
+            <div class="bg-gray-100 py-2 shadow-lg" role="directory" style="width: 250px">
+                <ul class="flex flex-col">
+                    {% for i in list %}
+                        <li class="p-0 m-0 px-2 py-1 flex items-center">
+                            <span class="btn-icon btn-icon-sm inline-block text-orange-500">
+                                <i class="material-icons inline-block">chevron_right</i>
+                            </span>
+                            <span>
+                                        Category Name
+                                    </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div class="my-5">
+            <p class="px-3 font-medium">Sections</p>
+            <div class="bg-gray-100 py-2 shadow-lg" role="directory" style="width: 250px">
+                <ul class="flex flex-col">
+                    {% for i in list %}
+                        <li class="p-0 m-0 px-2 py-1 flex items-center">
+                            <span class="btn-icon btn-icon-sm inline-block text-orange-500">
+                                <i class="material-icons inline-block">chevron_right</i>
+                            </span>
+                            <span>
+                                        Category Name
+                                    </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="z-50 shadow-lg hidden" id="close-popper">
+        <span class="btn-icon  inline-block bg-blue-500 rouned">
+            <i class="material-icons inline-block">chevron_right</i>
+        </span>
+    </div>
+    <div class="h-full bg-red-400">
+
+    </div>
+</div>
+
+<script>
+
+    let referenceElement = document.getElementById('close-float-holder-area')
+
+    let onPopper = document.getElementById('close-popper')
+
+    var popper = new Popper(referenceElement, onPopper, {placement: 'left'});
+
+    $('#float-menu').click(function () {
+        $('#float-menu').toggleClass('float-out')
+    })
+
+    $('#float-menu-content-box').click(function(e){
+        e.stopImmediatePropagation()
+        e.stopPropagation()
+        e.preventDefault()
+    })
+</script>
